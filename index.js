@@ -1,7 +1,4 @@
-const $container = document.querySelector('.container')
-const $containerLetters = document.querySelector('.container__letters')
-
-function getRandomArray(count, min, max){
+const getRandomArray = (count, min, max) =>{
     if (count > (max - min)) return;
     let randomArray = [], num;
   
@@ -15,47 +12,60 @@ function getRandomArray(count, min, max){
     return randomArray;
 }
 
-const stringLetters= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const arrNumbers = getRandomArray(5, 0, stringLetters.length)    
-const $listLetters = document.createElement('ul')
+const renderFirstLetterNames = (select, form) => {
 
-for (let index = 0; index < arrNumbers.length; index++) {
-    const $itemLetters = document.createElement('li')
-    $itemLetters.textContent = stringLetters[arrNumbers[index]]
-    $listLetters.append($itemLetters)
+    select.addEventListener('click', (e) => {
+        if (e.target.value !== 'none') {
+    
+            fetch("list.json")
+            .then(response => response.json())
+            .then(data => {
+                const arrNames = data.filter(el => el.name[0] === e.target.value);
+    
+                if (form.nextElementSibling) form.nextElementSibling.remove();
+                
+                const $listName = document.createElement('ul');
+                $listName.classList.add('list-names');
+                arrNames.map(el => {
+                    const $name = document.createElement('li');
+                    $name.textContent = el.name;
+                    $listName.append($name);
+                })
+    
+                if (arrNames.length) {
+                    form.after($listName);
+                } else {
+                    const $message = document.createElement('h1');
+                    $message.textContent = '!!! NO ITEMS FOUND !!!'
+                    form.after($message);
+                }
+            });
+            select.remove();
+            renderListOption();
+        }
+    })
 }
-     
-if ($containerLetters.children.length) $containerLetters.children[0].remove()
-$containerLetters.append($listLetters)
 
-$containerLetters.addEventListener('click', (e)=>{
-    fetch("list.json")
-        .then(response => response.json())
-        .then(data => {
-            const arrNames = data.filter(el => el.name[0] === e.target.textContent)
-            if ($containerLetters.nextElementSibling) $containerLetters.nextElementSibling.remove()
-            
-            const $listName = document.createElement('ul')
-            $listName.classList.add('list-names')
-            arrNames.map(el => {
-                const $name = document.createElement('li')
-                $name.textContent = el.name
-                $listName.append($name)
-            })
-            
-            if (arrNames.length) {
-                $containerLetters.after($listName)
-            } else {
-                const $message = document.createElement('h1')
-                $message.textContent = '!!! No items found !!!'
-                $containerLetters.after($message)
-            }
-        });
-})
+const renderListOption = () => {
+    const $form = document.querySelector('.form');
+    const stringLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    
+    $form.insertAdjacentHTML('afterbegin',
+        `<select id='letters' name='letters'>
+        <option hidden value="none">Change letter</option>
+    <select>`);
 
-   
-        
+    const $select = document.querySelector('#letters');
+    const arrNumbers = getRandomArray(5, 0, stringLetters.length);
 
+    for (let index = 0; index < arrNumbers.length; index++) {
+        const $option = document.createElement('option');
+        $option.textContent = stringLetters[arrNumbers[index]];
+        $select.append($option);
+    }
 
-
-
+    if ($form.children.length) $form.children[0].remove();
+    $form.append($select);
+    renderFirstLetterNames($select, $form);
+}
+renderListOption()

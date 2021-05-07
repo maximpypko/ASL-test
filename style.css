@@ -1,37 +1,45 @@
-li{
-    display: inline-block;
-    margin: 10px 10px;
-    padding: 10px 15px;
-    text-align: center;
-    border:none;
-    box-shadow: 0 0 5px 2px rgb(95, 2, 2);
-    background-color: rgb(92, 208, 253);
-    border-radius: 7px;
-    cursor: pointer;
-    transition: .2s ease-in;
+body{
+    background-image: linear-gradient(to right top, #d3dfe3, #cae3e7, #c2e6e7, #bbeae4, #b8eddd);;
 }
-li:hover:not(.list-names li){
-    transform: scale(1.1);
-    box-shadow: 0 0 5px 2px rgb(4, 95, 4);
+.container{
+    width: 50%;
+    margin: 30px auto;
+    display: flex;
 }
-ul{
-    width: max-content;
-    margin: 20px auto;
-    padding: 0;
 
-    list-style: none;
+#letters{
+    margin-right: 100px;
+    padding: 10px;
+    font-size: 25px;
+    border: none;
+    background-color: rgb(61, 206, 186);
+    cursor: pointer;
 }
-.list-names{
-    width: 90%;
-    display:flex;
-    justify-content: center;
-    flex-wrap: wrap;
+
+option{
+    font-size: 20px;
+    cursor: pointer;
 }
-.list-names li{
-    background-color: rgb(80, 243, 221);
-}
-h1{
+
+ul{
+    width: 100%;
+    margin: 0;
+    padding: 0;
     text-align: center;
+    list-style: none;
+    font-size: 20px;
+}
+
+li{
+    padding: 5px 10px;
+    margin-bottom: 7px;
+    box-shadow: 1px 1px 1px 0 rgb(87, 87, 87);
+}
+
+h1{
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    font-size: 20px;
     color: red;
-    text-transform: uppercase;
 }
